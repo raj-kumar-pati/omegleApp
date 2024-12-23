@@ -17,15 +17,19 @@ app.get('/' , (req,res)=>{
   res.render('home' , {RoomId:rajRooms});
 });
 app.get('/:room' , (req,res)=>{
-    res.render('index' , {RoomId:req.params.room});
+    res.render('index' , {RoomId:req.params.room,newRoomId:rajRooms});
 });
 let connectUsers = [];
+
 
 io.on("connection" , (socket)=>{
   
   socket.on('newUser' , (id , room)=>{
     connectUsers.push(id);
     socket.join(rajRooms);
+  
+
+
     if(connectUsers.length >= 2){
       const user1 = connectUsers.shift();
       const user2 = connectUsers.shift();
@@ -37,10 +41,7 @@ io.on("connection" , (socket)=>{
       console.log([user1 , user2]);
     }
     console.log(rajRooms);
-    // socket.join(room);
-    // socket.to(room).broadcast.emit('userJoined' , id);
-    // console.log([room , id]);
-    // console.log(socket.id);
+    
     socket.on('disconnect' , ()=>{
         socket.to(rajRooms).broadcast.emit('userDisconnect' , id);
     })
@@ -48,16 +49,6 @@ io.on("connection" , (socket)=>{
 })
 
 
-  // // Match users
-  // if (connectedUsers.length >= 2) {
-  //   const user1 = connectedUsers.shift();
-  //   const user2 = connectedUsers.shift();
-  //   console.log([user1, user2]);
-  //   // Notify users about their pair
-  //   io.to(user1).emit("match", { peerId: user2 });
-  //   io.to(user2).emit("match", { peerId: user1 });
-  //   console.log("Matched users:", [user1, user2]);
-  // }
 server.listen(port , ()=>{
   console.log("Server running on port : " + port);
 })

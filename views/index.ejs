@@ -10,10 +10,11 @@
       #videoDiv{
         display: grid;
         grid-gap: 10px;
-        height:80%;
+        height:100%;
         position: relative;
         grid-template-columns: repeat(auto-fill, 300px);
         grid-auto-rows: 300px;
+        background-color: rgb(92, 194, 210);
       }
       #footer{
         width: 100%;
@@ -54,6 +55,9 @@
   <body>
     <div id="videoDiv">
 
+    </div>
+    <div id="next">
+      <a href="/<%= newRoomId %>" ><button><h2>Next</h2></button></a>
     </div>
   </body>
 </html>
